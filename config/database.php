@@ -44,16 +44,12 @@ return [
         ],
 
         'mongodb' => [
-            'driver'   => 'mongodb',
-            'host'     => env('DB_HOST', '127.0.0.1'),
-            'port'     => env('DB_PORT', 27017),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', ''),
-            'password' => env('DB_PASSWORD', ''),
-            'options'  => [
-                'database' => env('DB_AUTH_DATABASE', 'admin'),
-            ],
+            'driver' => 'mongodb',
+            'dsn' => env('DB_URI'),
+            'database' => 'sample_mflix',
         ],
+
+
 
         'mysql' => [
             'driver' => 'mysql',

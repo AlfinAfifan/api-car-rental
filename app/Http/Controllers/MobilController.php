@@ -22,20 +22,31 @@ class MobilController extends Controller
     }
 
     public function searchMobil(Request $request)
-    {
-        $query = Mobil::query();
-        
-        if ($request->has('merek')) {
-            $query->where('merek', $request->merek);
-        }
-
-        if ($request->has('model')) {
-            $query->where('model', $request->model);
-        }
-
-        $mobil = $query->get();
-        return response()->json($mobil);
+{
+    // Check if any search parameters are provided
+    if (!$request->has('merek')) {
+        return response()->json(['message' => 'Mobil tidak ditemukan'], 404);
     }
+
+    $query = Mobil::query();
+    
+    // Add a filter if the 'merek' parameter is present.
+    if ($request->has('merek')) {
+        $query->where('merek', $request->merek);
+    }
+
+    // Get query result
+    $mobil = $query->get();
+
+    // If query result empty
+    if ($mobil->isEmpty()) {
+        return response()->json(['message' => 'Mobil tidak ditemukan'], 404);
+    }
+
+    // If query success
+    return response()->json($mobil);
+}
+
 
     public function listMobil()
     {

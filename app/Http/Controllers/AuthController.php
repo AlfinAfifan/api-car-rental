@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+
+    
     public function register(Request $request) {
 
         // validate input register
@@ -31,8 +33,8 @@ class AuthController extends Controller
         return response()->json($user, 201);
     }
 
-    public function login(Request $request) {
-
+    public function login(Request $request)
+    {
         // validate input login
         $request->validate([
             'nama' => 'required|string',
@@ -50,9 +52,19 @@ class AuthController extends Controller
         return response()->json(['token' => $token]);
     }
     
-    public function logout(Request $request)
+    
+    public function logout()
     {
-        $request->user()->tokens()->delete();
-        return response()->json(['message' => 'Logged out']);
+        // Auth::logout();
+        auth()->user()->tokens()->delete();
+        return response()->json(['message' => 'Log out sukses']);
+    }
+    
+    public function getUsers()
+    {
+        // Get all users
+        $users = User::all();
+    
+        return response()->json($users);
     }
 }

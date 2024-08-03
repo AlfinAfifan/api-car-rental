@@ -2,11 +2,8 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Jenssegers\Mongodb\Eloquent\Model as Eloquent;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-// use Jenssegers\Mongodb\Auth\User as Authenticatable;
+use MongoDB\Laravel\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
@@ -14,6 +11,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $collection = 'users';
     /**
      * The attributes that are mass assignable.
      *
@@ -45,4 +43,8 @@ class User extends Authenticatable
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public function rents() {
+        return $this->hasMany(Rent::class, 'user_id');
+    }
 }

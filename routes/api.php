@@ -34,4 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('rent', [RentController::class, 'rentMobil']);
     Route::post('rent/return', [RentController::class, 'returnMobil']);
     Route::get('rent', [RentController::class, 'viewRent']);
+
+    Route::get('users', [AuthController::class, 'getUsers']);
 });
