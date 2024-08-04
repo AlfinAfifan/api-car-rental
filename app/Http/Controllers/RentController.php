@@ -13,7 +13,7 @@ class RentController extends Controller
 {
     $request->validate([
         // Validate based plat nomor
-        'nomor_plat' => 'required|string|exists:mobil,nomor_plat', 
+        'nomor_plat' => 'required|string|exists:mobil,nomor_plat',
         'start_date' => 'required|date',
         'end_date' => 'required|date|after:start_date',
     ]);
@@ -51,7 +51,7 @@ class RentController extends Controller
 
 
     public function returnMobil(Request $request)
-    {   
+    {
         $request->validate([
             'nomor_plat' => 'required|string',
         ]);
@@ -85,12 +85,17 @@ class RentController extends Controller
 
     public function viewRent(Request $request)
 {
-    $userId = $request->user()->id;
+    $user = $request->user();
+    $userId = $user->id;
+    $isAdmin = $user->role === 'admin';
 
-    // Retrieve all rentals for a specific user with related data
-    $rentals = Rent::with(['user', 'mobil'])
-                   ->where('user_id', $userId)
-                   ->get();
+    $rentalsQuery = Rent::with(['user', 'mobil']);
+
+    if (!$isAdmin) {
+        $rentalsQuery->where('user_id', $userId);
+    }
+
+    $rentals = $rentalsQuery->get();
 
     if ($rentals->isEmpty()) {
         return response()->json(['message' => 'Tidak ada rental untuk pengguna ini'], 404);
@@ -116,5 +121,6 @@ class RentController extends Controller
         ];
     }));
 }
+
 
 }

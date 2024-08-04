@@ -23,6 +23,7 @@ class User extends Authenticatable
         'nomor_telepon',
         'nomor_sim',
         'password',
+        'role'
     ];
 
     /**
