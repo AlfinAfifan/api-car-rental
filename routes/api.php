@@ -25,10 +25,10 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('mobil', [MobilController::class, 'listmobil']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('mobil', [MobilController::class, 'addMobil']);
-    Route::get('mobil', [MobilController::class, 'listmobil']);
     Route::get('mobil/search', [MobilController::class, 'searchMobil']);
 
     Route::post('rent', [RentController::class, 'rentMobil']);
